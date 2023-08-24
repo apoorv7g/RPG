@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tile.tileManager;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable
 	final int screenWidth=maxCol * tileSize;
 	final int screenHeight=maxRow * tileSize;
 	int FPS=60;
+	tileManager tileManager=new tileManager(this);
 	KeyHandler keyH=new KeyHandler();
 	Thread gameThread;
 	Player player=new Player(this, keyH);
@@ -76,6 +78,7 @@ public class GamePanel extends JPanel implements Runnable
 		Toolkit.getDefaultToolkit().sync();
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D) g;
+		tileManager.draw(g2d);
 		player.draw(g2d);
 		g2d.dispose(); 
 	}
