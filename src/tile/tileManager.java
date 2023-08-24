@@ -1,7 +1,10 @@
 package tile;
 
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
@@ -10,11 +13,48 @@ public class tileManager
 {
 	GamePanel gp ;
 	Tile []tile;
+	int mapTileNum[][];
 	public tileManager(GamePanel gp) 
 	{
 		this.gp=gp;
 		tile=new Tile[10];
+		mapTileNum=new int[gp.maxCol][gp.maxRow];
 		getTileImage();
+		loadMap("/maps/map1.txt");
+		
+		
+	}
+	public void loadMap(String s)
+	{
+		try 
+		{
+		InputStream iStream =getClass().getResourceAsStream(s);
+		BufferedReader bReader=new BufferedReader(new InputStreamReader(iStream));
+		int col=0,row=0;
+		while(col<gp.maxCol && row<gp.maxRow) 
+			{
+			
+				String line=bReader.readLine();
+				while(col<gp.maxCol)
+				{
+					String numbers[]=line.split(" ");
+					int num =Integer.parseInt(numbers[col]);
+					mapTileNum[col][row]=num;
+					col++;
+				}
+				
+				col=0;
+				row++;
+			}
+			
+			bReader.close();
+		}
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	public void getTileImage() 
@@ -39,7 +79,7 @@ public class tileManager
 	public void draw(Graphics2D g) 
 	{
 		// outer box
-		g.drawImage(tile[2].image,0,0,gp.tileSize,gp.tileSize,null);//first wall
+		/*g.drawImage(tile[2].image,0,0,gp.tileSize,gp.tileSize,null);//first wall
 		
 		//first side
 		g.drawImage(tile[2].image,48,0,gp.tileSize,gp.tileSize,null);
@@ -87,7 +127,29 @@ public class tileManager
 		g.drawImage(tile[0].image,144,96,gp.tileSize,gp.tileSize,null);
 		g.drawImage(tile[0].image,96,144,gp.tileSize,gp.tileSize,null);
 		g.drawImage(tile[0].image,144,144,gp.tileSize,gp.tileSize,null);
-		//note efficient way of doing this so we'll redo it
+		//note efficient way of doing this so we'll redo it*/
+		
+		int col=0;
+		int row=0;
+		int x=0,y=0;
+		
+		while(col < gp.maxCol && row < gp.maxRow) 
+		{
+			
+			int tileNum=mapTileNum[col][row];
+			g.drawImage(tile[tileNum].image,x,y,gp.tileSize,gp.tileSize,null);
+			col++;
+			x+=gp.tileSize;
+			if(col==gp.maxCol) 
+			{
+				col=0;
+				x=0;
+				row++;
+				y+=gp.tileSize;
+				
+			}
+				
+		}
 		
 		
 	}
