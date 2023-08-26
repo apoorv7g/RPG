@@ -23,8 +23,8 @@ public class Player extends Entity
 	public void defaultValue() 
 	
 	{
-		x=100;
-		y=100;
+				worldx=100;
+		worldy=100;
 		speed=4;
 		direction="down";
 	}
@@ -46,22 +46,22 @@ public class Player extends Entity
 		if(keyH.up==true) 
 		{
 			direction="up";
-			y-=speed;
+			worldy-=speed;
 		}
 		else if(keyH.down==true) 
 		{
 			direction="down";
-			y+=speed;
+			worldy+=speed;
 		}
 		else if(keyH.left==true) 
 		{
 			direction="left";
-			x-=speed;
+			worldx-=speed;
 		}
 		else if(keyH.right==true) 
 		{
 			direction="right";
-			x+=speed;
+			worldx+=speed;
 		}
 	}
 	public void draw(Graphics2D g2d) {
@@ -94,7 +94,7 @@ public class Player extends Entity
 		break;
 		
 		}
-		g2d.drawImage(image, x, y, gp.tileSize,gp.tileSize,	null );
+		g2d.drawImage(image, worldx, worldy, gp.tileSize,gp.tileSize,	null );
 	}
 	
 		
