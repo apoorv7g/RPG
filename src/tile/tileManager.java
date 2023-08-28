@@ -18,9 +18,9 @@ public class tileManager
 	{
 		this.gp=gp;
 		tile=new Tile[10];
-		mapTileNum=new int[gp.maxCol][gp.maxRow];
+		mapTileNum=new int[gp.WorldmaxCol][gp.WorldmaxRow];
 		getTileImage();
-		loadMap("/maps/map1.txt");
+		loadMap("/maps/World Map.txt");
 		
 		
 	}
@@ -31,11 +31,11 @@ public class tileManager
 		InputStream iStream =getClass().getResourceAsStream(s);
 		BufferedReader bReader=new BufferedReader(new InputStreamReader(iStream));
 		int col=0,row=0;
-		while(col<gp.maxCol && row<gp.maxRow) 
+		while(col<gp.WorldmaxCol && row<gp.WorldmaxCol) 
 			{
 			
 				String line=bReader.readLine();
-				while(col<gp.maxCol)
+				while(col<gp.WorldmaxCol)
 				{
 					String numbers[]=line.split(" ");
 					int num =Integer.parseInt(numbers[col]);
@@ -136,23 +136,37 @@ public class tileManager
 		g.drawImage(tile[0].image,144,144,gp.tileSize,gp.tileSize,null);
 		//note efficient way of doing this so we'll redo it*/
 		
-		int col=0;
-		int row=0;
-		int x=0,y=0;
+		int worldcol=0;
+		int worldrow=0;
 		
-		while(col < gp.maxCol && row < gp.maxRow) 
+		
+		while(worldcol < gp.WorldmaxCol && worldrow < gp.WorldmaxRow) 
 		{
+			int tileNum=mapTileNum[worldcol][worldrow];
+			int worldX=worldcol	* gp.tileSize;
+			int worldY=worldrow * gp.tileSize;
+			int screenX=worldX	 - gp.player.worldx +gp.player.ScreenX;
+			int screenY=worldY	 - gp.player.worldy +gp.player.ScreenY;
 			
-			int tileNum=mapTileNum[col][row];
-			g.drawImage(tile[tileNum].image,x,y,gp.tileSize,gp.tileSize,null);
-			col++;
-			x+=gp.tileSize;
-			if(col==gp.maxCol) 
+			if (
+				worldX+gp.tileSize>	gp.player.worldx-gp.player.ScreenX &&
+				worldX-gp.tileSize<	gp.player.worldx+gp.player.ScreenX &&
+				worldY+gp.tileSize>	gp.player.worldy-gp.player.ScreenY &&
+				worldY-gp.tileSize<	gp.player.worldy+gp.player.ScreenY 
+				
+			   ) 
 			{
-				col=0;
-				x=0;
-				row++;
-				y+=gp.tileSize;
+				g.drawImage(tile[tileNum].image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+			}
+			
+			worldcol++;
+			
+			if(worldcol==gp.WorldmaxCol) 
+			{
+					worldcol=0;
+			
+				worldrow++;
+				
 				
 			}
 				

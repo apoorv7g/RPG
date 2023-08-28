@@ -13,18 +13,22 @@ public class Player extends Entity
 {
 	GamePanel gp;
 	KeyHandler keyH;
+	public final int ScreenX;
+	public final int ScreenY;	
 	public Player(GamePanel gp,KeyHandler keyH) 
 	{
 		this.gp=gp;
 		this.keyH=keyH;		
+		ScreenX=gp.screenWidth/2-(gp.tileSize/2);
+		ScreenY=gp.screenHeight/2-(gp.tileSize/2);	
 		defaultValue();
 		getImage();
 	}
 	public void defaultValue() 
 	
 	{
-				worldx=100;
-		worldy=100;
+		worldx=gp.tileSize*24		;
+		worldy=gp.tileSize*24	;
 		speed=4;
 		direction="down";
 	}
@@ -94,7 +98,7 @@ public class Player extends Entity
 		break;
 		
 		}
-		g2d.drawImage(image, worldx, worldy, gp.tileSize,gp.tileSize,	null );
+		g2d.drawImage(image, ScreenX, ScreenY, gp.tileSize,gp.tileSize,	null );
 	}
 	
 		
