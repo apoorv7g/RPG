@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -21,6 +22,11 @@ public class Player extends Entity
 		this.keyH=keyH;		
 		ScreenX=gp.screenWidth/2-(gp.tileSize/2);
 		ScreenY=gp.screenHeight/2-(gp.tileSize/2);	
+		solidArea=new Rectangle();
+		solidArea.x=15;
+		solidArea.y=18;
+		solidArea.width=16;
+		solidArea.height=24;
 		defaultValue();
 		getImage();
 	}
@@ -50,22 +56,37 @@ public class Player extends Entity
 		if(keyH.up==true) 
 		{
 			direction="up";
-			worldy-=speed;
+			
 		}
 		else if(keyH.down==true) 
 		{
 			direction="down";
-			worldy+=speed;
+			
 		}
 		else if(keyH.left==true) 
 		{
 			direction="left";
-			worldx-=speed;
+			
 		}
 		else if(keyH.right==true) 
 		{
 			direction="right";
-			worldx+=speed;
+			
+		}
+		collisionOn=false;
+		gp.collisionChecker.checkTile(this);
+		if(collisionOn==false) {
+			switch(direction) {
+			case "up":worldy-=speed;
+				break;
+			case "down":worldy+=speed;
+				break;
+			case "left":worldx-=speed;
+				break;
+			case "right":worldx+=speed;
+				break;
+				
+			}
 		}
 	}
 	public void draw(Graphics2D g2d) {
