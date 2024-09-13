@@ -75,7 +75,7 @@ public class Player extends Entity
 		}
 		collisionOn=false;
 		gp.collisionChecker.checkTile(this);
-		if(collisionOn==false) {
+		if(collisionOn==false &&keyH.keyP==true) {
 			switch(direction) {
 			case "up":worldy-=speed;
 				break;
